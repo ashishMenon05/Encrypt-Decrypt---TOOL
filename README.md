@@ -26,7 +26,7 @@ A sleek, browser-based encryption/decryption tool built with **Python Flask** an
 ## ✨ Features
 
 - 🔒 **Text Encryption** — Encrypt any plaintext with a single click. Copy or download the result.
-- 🔓 **Text Decryption** — Paste any Fernet-encrypted ciphertext and decrypt it instantly.
+- 🔒 **Text Decryption** — Paste any Fernet-encrypted ciphertext and decrypt it instantly.
 - 📁 **File Encryption** — Upload any file (up to 16MB) and download an encrypted `.enc` version.
 - 📂 **File Decryption** — Upload a `.enc` file and download the original.
 - 🔑 **Key Management** — View key info and rotate the server encryption key.
