@@ -6,20 +6,20 @@ A sleek, browser-based encryption/decryption tool built with **Python Flask** an
 
 ## 📸 Screenshots
 
-### Home — Text Encryption
-![Home](screenshots/01_home.png)
-
-### Encryption Result
-![Encrypt Result](screenshots/02_encrypt_result.png)
+### Text Encryption
+![Text Encryption](screenshots/Encryption.png)
 
 ### Text Decryption
-![Decrypt Tab](screenshots/03_decrypt_tab.png)
+![Text Decryption](screenshots/Decryption.png)
 
 ### File Encryption
-![File Encrypt](screenshots/04_file_encrypt.png)
+![File Encryption](screenshots/file%20encryption.png)
 
-### Key Management
-![Key Management](screenshots/05_key_management.png)
+### Encrypted File Example
+![Encrypted File Example](screenshots/encrypted%20file.png)
+
+### Decrypted File Example
+![Decrypted File Example](screenshots/decrypted%20file.png)
 
 ---
 
