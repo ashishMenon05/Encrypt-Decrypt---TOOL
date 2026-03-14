@@ -18,7 +18,6 @@ A sleek, browser-based encryption/decryption tool built with **Python Flask** an
 ### Encrypted File Example
 ![Encrypted File Example](screenshots/encrypted%20file.png)
 
-### Decrypted File Example
 ![Decrypted File Example](screenshots/decrypted%20file.png)
 
 ---
