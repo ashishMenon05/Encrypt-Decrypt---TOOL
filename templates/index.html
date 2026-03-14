@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Encrypt and decrypt text and files securely using Fernet AES-128 encryption. No data stored on servers.">
+    <title>Encryption &amp; Decryption Tool</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1>🔐 Encryption &amp; Decryption Tool</h1>
+                <p class="subtitle">Secure your data with military-grade encryption</p>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Tab Navigation -->
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="text-encrypt">
+                    <span class="icon">📝</span> Text Encryption
+                </button>
+                <button class="tab-btn" data-tab="text-decrypt">
+                    <span class="icon">🔓</span> Text Decryption
+                </button>
+                <button class="tab-btn" data-tab="file-encrypt">
+                    <span class="icon">📁</span> File Encryption
+                </button>
+                <button class="tab-btn" data-tab="file-decrypt">
+                    <span class="icon">📂</span> File Decryption
+                </button>
+                <button class="tab-btn" data-tab="key-management">
+                    <span class="icon">🔑</span> Key Management
+                </button>
+            </div>
+
+            <!-- Tab Contents -->
+            <div class="tab-content">
+                <!-- Text Encryption Tab -->
+                <div id="text-encrypt" class="tab-pane active">
+                    <div class="card">
+                        <h2>Encrypt Text</h2>
+                        <div class="form-group">
+                            <label for="plaintext">Enter your text:</label>
+                            <textarea id="plaintext" placeholder="Type the text you want to encrypt..." rows="8"></textarea>
+                        </div>
+                        <button class="btn btn-primary" onclick="encryptText(event)">🔒 Encrypt</button>
+
+                        <div id="encrypt-result" class="result-box hidden">
+                            <h3>Encrypted Result:</h3>
+                            <div class="result-content">
+                                <textarea id="encrypted-text" readonly rows="8"></textarea>
+                                <p class="char-count" id="encrypt-char-count"></p>
+                            </div>
+                            <div class="button-group">
+                                <button class="btn btn-secondary" onclick="copyToClipboard('encrypted-text')">📋 Copy</button>
+                                <button class="btn btn-secondary" onclick="downloadEncrypted()">⬇️ Download</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text Decryption Tab -->
+                <div id="text-decrypt" class="tab-pane">
+                    <div class="card">
+                        <h2>Decrypt Text</h2>
+                        <div class="form-group">
+                            <label for="encrypted-input">Paste encrypted text:</label>
+                            <textarea id="encrypted-input" placeholder="Paste the encrypted text you want to decrypt..." rows="8"></textarea>
+                        </div>
+                        <button class="btn btn-primary" onclick="decryptText(event)">🔓 Decrypt</button>
+
+                        <div id="decrypt-result" class="result-box hidden">
+                            <h3>Decrypted Result:</h3>
+                            <div class="result-content">
+                                <textarea id="decrypted-text" readonly rows="8"></textarea>
+                                <p class="char-count" id="decrypt-char-count"></p>
+                            </div>
+                            <div class="button-group">
+                                <button class="btn btn-secondary" onclick="copyToClipboard('decrypted-text')">📋 Copy</button>
+                                <button class="btn btn-secondary" onclick="downloadDecrypted()">⬇️ Download</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- File Encryption Tab -->
+                <div id="file-encrypt" class="tab-pane">
+                    <div class="card">
+                        <h2>Encrypt File</h2>
+                        <div class="form-group">
+                            <div class="file-upload">
+                                <input type="file" id="file-to-encrypt" onchange="updateFileName('file-to-encrypt', 'encrypt-filename')">
+                                <label for="file-to-encrypt" class="upload-label">
+                                    <span class="icon">📤</span>
+                                    <span id="encrypt-filename">Click to select or drag file here</span>
+                                </label>
+                            </div>
+                            <p class="file-info">Max file size: 16MB</p>
+                        </div>
+                        <button class="btn btn-primary" onclick="encryptFile(event)">🔒 Encrypt File</button>
+                        <div id="encrypt-file-status" class="status hidden"></div>
+                    </div>
+                </div>
+
+                <!-- File Decryption Tab -->
+                <div id="file-decrypt" class="tab-pane">
+                    <div class="card">
+                        <h2>Decrypt File</h2>
+                        <div class="form-group">
+                            <div class="file-upload">
+                                <input type="file" id="file-to-decrypt" onchange="updateFileName('file-to-decrypt', 'decrypt-filename')">
+                                <label for="file-to-decrypt" class="upload-label">
+                                    <span class="icon">📤</span>
+                                    <span id="decrypt-filename">Click to select or drag file here</span>
+                                </label>
+                            </div>
+                            <p class="file-info">Supports .enc files or any encrypted file</p>
+                        </div>
+                        <button class="btn btn-primary" onclick="decryptFile(event)">🔓 Decrypt File</button>
+                        <div id="decrypt-file-status" class="status hidden"></div>
+                    </div>
+                </div>
+
+                <!-- Key Management Tab -->
+                <div id="key-management" class="tab-pane">
+                    <div class="card">
+                        <h2>🔑 Key Management</h2>
+                        <div class="key-info-box">
+                            <p>The server uses a <strong>Fernet (AES-128-CBC)</strong> symmetric key stored on the server filesystem.</p>
+                            <ul class="key-info-list">
+                                <li>✅ Each encryption/decryption uses the <strong>same server-side key</strong>.</li>
+                                <li>✅ The key persists across restarts when mounted as a volume.</li>
+                                <li>⚠️ Generating a new key will make all previously encrypted data unreadable.</li>
+                            </ul>
+                        </div>
+
+                        <div class="danger-zone">
+                            <h3>⚠️ Danger Zone</h3>
+                            <p>Generating a new key is <strong>irreversible</strong>. Only do this if you want to start fresh.</p>
+                            <button class="btn btn-danger" onclick="generateNewKey(event)">🔑 Generate New Key</button>
+                            <p class="key-status" id="key-status"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>🔐 Your data is encrypted locally. No data is stored on our servers.</p>
+            <p class="footer-info">Powered by Fernet (AES-128 in CBC mode with HMAC authentication)</p>
+        </footer>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="notification" class="notification hidden"></div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

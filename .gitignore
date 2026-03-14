@@ -1,0 +1,22 @@
+# Security — never commit your encryption key!
+encryption.key
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+
+# Environment
+.env
+.env.*
+
+# Editor/IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
